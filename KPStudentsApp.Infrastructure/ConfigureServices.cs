@@ -1,5 +1,7 @@
-﻿using KPStudentsApp.Infrastructure.Persistence;
+﻿using KPStudentsApp.Infrastructure.Interfaces;
+using KPStudentsApp.Infrastructure.Persistence;
 using KPStudentsApp.Infrastructure.Persistence.Interceptors;
+using KPStudentsApp.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,9 @@ namespace KPStudentsApp.Infrastructure
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddScoped<ApplicationDbContextInitialiser>();
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IDistributedLockManager, DistributedLockManager>();
 
             return services;
         }

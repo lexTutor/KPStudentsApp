@@ -3,7 +3,7 @@ using KPStudentsApp.Infrastructure.Interfaces;
 using KPStudentsApp.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace KPStudentsApp.Infrastructure.Repository
+namespace KPStudentsApp.Infrastructure.Services
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
