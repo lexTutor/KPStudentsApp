@@ -1,12 +1,30 @@
 using FluentValidation.AspNetCore;
 using KPStudentsApp.Application;
+using KPStudentsApp.Application.Common.Models;
 using KPStudentsApp.Infrastructure;
 using KPStudentsApp.Infrastructure.Persistence;
+using KPStudentsApp.Presentation.Middlewares;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+  {
+      options.InvalidModelStateResponseFactory = c =>
+      {
+          var errors = c.ModelState.Values.Where(v => v.Errors.Count > 0)
+          .SelectMany(v => v.Errors)
+          .Select(v => v.ErrorMessage);
+
+          return new BadRequestObjectResult(new Response<string>
+          {
+              Errors = errors.ToArray(),
+              Message = "Invalid Model State"
+          });
+      };
+  });
+
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
@@ -34,6 +52,8 @@ if (app.Environment.IsDevelopment())
         await initialiser.SeedAsync();
     }
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

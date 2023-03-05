@@ -16,6 +16,7 @@ namespace KPStudentsApp.Application
 
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IReferenceNumberService, ReferenceNumberService>();
             return services;
         }
     }

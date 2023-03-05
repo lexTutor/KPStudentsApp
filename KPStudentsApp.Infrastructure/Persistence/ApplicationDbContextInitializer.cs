@@ -48,7 +48,7 @@ namespace KPStudentsApp.Infrastructure.Persistence
         {
             // Default data
             // Seed, if necessary
-            if (!_context.Course.Any())
+            if (!_context.Course.Any() && !_context.Student.Any())
             {
                 _context.Course.Add(new Course
                 {

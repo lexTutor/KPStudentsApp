@@ -21,7 +21,7 @@ namespace KPStudentsApp.Application.Models.RequestModels
             RuleFor(subject => subject.PhoneNumber).PhoneNumber();
             RuleFor(subject => subject.Email).EmailAddress();
             RuleFor(subject => subject.CourseIds).NotEmpty().Must(x => x.Count >= 1 && x.Count <= 3)
-                .WithMessage("Students Must have between 1 and 3 courses");
+                .When(x => x.CourseIds != null).WithMessage("Students Must have between 1 and 3 courses");
         }
     }
 }
