@@ -52,19 +52,19 @@ namespace KPStudentsApp.Application.Services
 
             var responseData = _mapper.Map<CourseResponseModel>(course);
 
-            return Response<CourseResponseModel>.Success("Successfully Updated Course", responseData);
+            return Response<CourseResponseModel>.Success("Successfully Updated Course Information", responseData);
         }
 
-        public async Task<Response<CourseResponseModel>> DeleteCourse(int courseId)
+        public async Task<Response<string>> DeleteCourse(int courseId)
         {
             var course = await _courseRepository.GetAsync(courseId);
 
             if (course == null)
-                return Response<CourseResponseModel>.Fail("Invalid Course Id");
+                return Response<string>.Fail("Invalid Course Id");
 
             await _courseRepository.DeleteAsync(course);
 
-            return Response<CourseResponseModel>.Success("Successfully Deleted Course");
+            return Response<string>.Success("Successfully Deleted Course");
         }
 
         public async Task<Response<CourseResponseModel>> GetCourse(int courseId)
@@ -88,7 +88,8 @@ namespace KPStudentsApp.Application.Services
                 courses = courses.Where(x => x.Name.Contains(searchRequest.Data) || x.Code.Contains(searchRequest.Data));
             }
 
-            courses = courses.OrderBy(x => x.CreatedAt).ThenBy(x => x.Name);
+            courses = courses.OrderByDescending(x => x.CreatedAt)
+                .ThenByDescending(x => x.UpdatedAt).ThenBy(x => x.Name);
 
             return PaginationHelper.Paginate<Course, CourseResponseModel>
                 (courses, _mapper, searchRequest.Page, searchRequest.PageSize, courses.Count());
@@ -112,7 +113,8 @@ namespace KPStudentsApp.Application.Services
                 return false;
             }
 
-            if (_courseRepository.Table.Any(x => x.Code == course.Code && (course.Id <= 0 || x.Id != course.Id)))
+            if (_courseRepository.Table.Any(x => x.Code == course.Code &&
+                (course.Id <= 0 || x.Id != course.Id)))
             {
                 errorMessage = $"A course with code {course.Code} already exists";
                 return false;

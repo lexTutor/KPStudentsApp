@@ -30,38 +30,46 @@ namespace KPStudentsApp.Presentation.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Response<CourseResponseModel>), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(Response<CourseResponseModel>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Response<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateCourse(CreateCourseModel model)
         {
             _logger.LogInformation($"{nameof(CreateCourse)} Controller Method Initiated");
 
             var result = await _courseService.CreateCourse(model);
 
-            _logger.LogInformation($"{nameof(CreateCourse)} Controller Method Completed");
+            if (result.Succeeded)
+            {
+                return StatusCode((int)HttpStatusCode.Created, result);
+            }
 
-            return StatusCode((int)HttpStatusCode.Created, result);
+            return StatusCode((int)HttpStatusCode.BadRequest, result);
         }
 
         /// <summary>
-        /// This endpoint is used to Update a Course
+        /// This endpoint is used to Update a Course's information
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(typeof(Response<CourseResponseModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Response<CourseResponseModel>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Response<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateCourse(UpdateCourseModel model)
         {
             _logger.LogInformation($"{nameof(UpdateCourse)} Controller Method Initiated");
 
             var result = await _courseService.UpdateCourse(model);
 
-            _logger.LogInformation($"{nameof(UpdateCourse)} Controller Method Completed");
+            if (result.Succeeded)
+            {
+                return StatusCode((int)HttpStatusCode.OK, result);
+            }
 
-            return StatusCode((int)HttpStatusCode.OK, result);
+            return StatusCode((int)HttpStatusCode.BadRequest, result);
         }
 
         /// <summary>
-        /// This endpoint is used to retrieve a Course by Id
+        /// This endpoint is used to retrieve a Course's details by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -74,9 +82,12 @@ namespace KPStudentsApp.Presentation.Controllers
 
             var result = await _courseService.GetCourse(id);
 
-            _logger.LogInformation($"{nameof(GetCourse)} Controller Method Completed");
+            if (result.Succeeded)
+            {
+                return StatusCode((int)HttpStatusCode.OK, result);
+            }
 
-            return StatusCode((int)HttpStatusCode.OK, result);
+            return StatusCode((int)HttpStatusCode.NotFound, result);
         }
 
         /// <summary>
@@ -92,8 +103,6 @@ namespace KPStudentsApp.Presentation.Controllers
 
             var result = _courseService.SearchCourses(searchRequest);
 
-            _logger.LogInformation($"{nameof(SearchCourses)} Controller Method Completed");
-
             return StatusCode((int)HttpStatusCode.OK, result);
         }
 
@@ -103,17 +112,20 @@ namespace KPStudentsApp.Presentation.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(Response<CourseResponseModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Response<CourseResponseModel>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Response<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Response<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteCourse([FromRoute] int id)
         {
             _logger.LogInformation($"{nameof(DeleteCourse)} Controller Method Initiated");
 
             var result = await _courseService.DeleteCourse(id);
 
-            _logger.LogInformation($"{nameof(DeleteCourse)} Controller Method Completed");
+            if (result.Succeeded)
+            {
+                return StatusCode((int)HttpStatusCode.OK, result);
+            }
 
-            return StatusCode((int)HttpStatusCode.OK, result);
+            return StatusCode((int)HttpStatusCode.NotFound, result);
         }
     }
 }

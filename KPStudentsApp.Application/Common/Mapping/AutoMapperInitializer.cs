@@ -12,6 +12,10 @@ namespace KPStudentsApp.Application.Common.Mapping
             CreateMap<UpdateCourseModel, Course>();
             CreateMap<CreateCourseModel, Course>();
             CreateMap<Course, CourseResponseModel>();
+
+            CreateMap<UpdateStudentModel, Student>();
+            CreateMap<CreateStudentModel, Student>();
+            CreateMap<Student, StudentResponseModel>();
         }
     }
 }

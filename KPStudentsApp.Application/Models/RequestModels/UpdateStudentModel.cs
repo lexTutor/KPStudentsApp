@@ -19,10 +19,9 @@ namespace KPStudentsApp.Application.Models.RequestModels
         {
             RuleFor(subject => subject.Id).NotEmpty().GreaterThanOrEqualTo(1);
             RuleFor(subject => subject.FirstName).Name();
-            RuleFor(subject => subject.LastName).Name();
             RuleFor(subject => subject.PhoneNumber).PhoneNumber();
             RuleFor(subject => subject.Email).EmailAddress();
-            RuleFor(subject => subject.CourseIds).NotEmpty().Must(x => x.Count >= 1 && x.Count <= 3)
+            RuleFor(subject => subject.CourseIds).NotEmpty().Must(x => x.Count >= 1 && x.Count <= 3).When(x=> x.CourseIds != null)
                 .WithMessage("Students Must have between 1 and 3 courses");
         }
     }
