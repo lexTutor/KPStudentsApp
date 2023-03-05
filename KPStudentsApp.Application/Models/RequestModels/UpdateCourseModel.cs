@@ -14,7 +14,7 @@ namespace KPStudentsApp.Application.Models.RequestModels
     {
         public UpdateCourseModelValidator()
         {
-            RuleFor(course => course.Id).NotEmpty();
+            RuleFor(course => course.Id).NotEmpty().GreaterThanOrEqualTo(1);
             RuleFor(course => course.Name).NotEmpty().Length(1, 250);
             RuleFor(course => course.CreditUnit).InclusiveBetween(1, 6);
             RuleFor(course => course.Code).NotEmpty().Length(3, 10);

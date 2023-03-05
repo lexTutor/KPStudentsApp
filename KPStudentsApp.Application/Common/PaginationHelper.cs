@@ -14,7 +14,7 @@ namespace KPStudentsApp.Application.Common
             {
                 Data = mapper.Map<IList<TRes>>(request.Skip(skipTake.Item1)).Take(skipTake.Item2).ToList(),
                 Page = page,
-                PageSize = pageSize,
+                PageSize = pageSize == 0 ? 10 : pageSize,
                 TotalCount = total,
                 PageCount = PageCount(total, skipTake.Item2)
             };
