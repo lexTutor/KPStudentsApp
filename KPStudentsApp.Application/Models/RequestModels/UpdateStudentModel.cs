@@ -17,7 +17,7 @@ namespace KPStudentsApp.Application.Models.RequestModels
     {
         public UpdateStudentModelValidator()
         {
-            RuleFor(subject => subject.Id).NotEmpty();
+            RuleFor(subject => subject.Id).NotEmpty().GreaterThanOrEqualTo(1);
             RuleFor(subject => subject.FirstName).Name();
             RuleFor(subject => subject.LastName).Name();
             RuleFor(subject => subject.PhoneNumber).PhoneNumber();

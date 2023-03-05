@@ -10,10 +10,17 @@ namespace KPStudentsApp.Infrastructure.Persistence.Configurations
         {
             builder.HasKey(x => x.Id).IsClustered();
             builder.Property(x => x.Id).UseIdentityColumn(seed: 1, increment: 1);
+
             builder.Property(x => x.FirstName).IsRequired();
             builder.Property(x => x.LastName).IsRequired();
+
             builder.Property(x => x.Email).IsRequired();
+            builder.HasIndex(x => x.Email).IsUnique();
+
+            builder.Property(x => x.PhoneNumber).IsRequired();
+
             builder.Property(x => x.RegisterationNumber).IsRequired();
+            builder.HasIndex(x => x.RegisterationNumber).IsUnique();
         }
     }
 }

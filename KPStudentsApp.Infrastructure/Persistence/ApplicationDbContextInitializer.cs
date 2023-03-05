@@ -63,7 +63,8 @@ namespace KPStudentsApp.Infrastructure.Persistence
                                  FirstName = "Jesus",
                                  LastName = "Joseph",
                                  RegisteredOn = DateTime.UtcNow,
-                                 RegisterationNumber = "SP-001"
+                                 RegisterationNumber = "SP-001",
+                                 PhoneNumber = "0908888888"
                             },
                             new Student
                             {
@@ -71,7 +72,8 @@ namespace KPStudentsApp.Infrastructure.Persistence
                                  FirstName = "David",
                                  LastName = "Jesse",
                                  RegisteredOn = DateTime.UtcNow,
-                                 RegisterationNumber = "SP-002"
+                                 RegisterationNumber = "SP-002",
+                                 PhoneNumber = "0908888788"
                             }
                         }
                 });
